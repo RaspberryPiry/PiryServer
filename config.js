@@ -8,4 +8,4 @@ var listConfig = {
     composite : fileConfig.picture + "composite.json",
 }
 
-export { fileConfig, listConfig }
+module.exports = { fileConfig, listConfig }

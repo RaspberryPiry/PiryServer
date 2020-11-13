@@ -53,4 +53,4 @@ function formatter(string) {
 }
 
 
-export { readJson, addJsonList, saveJsonPicture };
+module.exports = { readJson, addJsonList, saveJsonPicture };

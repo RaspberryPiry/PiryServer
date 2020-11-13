@@ -1,5 +1,5 @@
-import { readJson } from "fileIO.js";
-import { fileConfig, listConfig } from "../config.js";
+const fileIO = require("./fileIO");
+const config = require("../config");
 
 function collectAllList() {
     var basic = collectBasicList();
@@ -9,7 +9,7 @@ function collectAllList() {
 }
 
 function collectBasicList() {
-    readJson(listConfig.basic)
+    fileIO.readJson(config.basic)
     .then((jsonData) => {
         return jsonData.fileList;
     },
@@ -20,7 +20,7 @@ function collectBasicList() {
 }
 
 function collectCopositeList() {
-    readJson(listConfig.composite)
+    fileIO.readJson(config.composite)
     .then((jsonData) => {
         return jsonData.fileList;
     },
@@ -30,4 +30,4 @@ function collectCopositeList() {
     })
 }
 
-export { collectAllList, collectBasicList, collectCopositeList};
+module.exports = { collectAllList, collectBasicList, collectCopositeList};
