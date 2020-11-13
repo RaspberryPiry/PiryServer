@@ -12,3 +12,5 @@ router.get('/basic', (req, res, next) => {
 router.get('/composite', (req, res, next) => {
 
 });
+
+module.exports = router;
