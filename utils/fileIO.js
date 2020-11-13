@@ -1,11 +1,8 @@
 var fs = require('fs');
 
-const BASIC = 0;
-const COMPOS = 1;
-
 function readJson(fileName) {
     // Read Json And Parse it to data.
-    return Promise((res, rej) => {
+    return new Promise((res, rej) => {
         fs.readFile(fileName, (err, data) => {
             if(err) rej(err);
             else res(JSON.parse(data));
