@@ -1,4 +1,4 @@
-var fs = require('fs');
+import { readJson } from "fileIO.js";
 import { fileConfig, listConfig } from "../config.js";
 
 function collectAllList() {
@@ -28,16 +28,6 @@ function collectCopositeList() {
         // TODO : 이상 JSON 파일에 대한 에러처리.
         console.log(err);
     })
-}
-
-function readJson(fileName) {
-    // Read Json And Parse it to data.
-    return Promise((res, rej) => {
-        fs.readFile(fileName, (err, data) => {
-            if(err) rej(err);
-            else res(JSON.parse(data));
-        });
-    });
 }
 
 export { collectAllList, collectBasicList, collectCopositeList};
