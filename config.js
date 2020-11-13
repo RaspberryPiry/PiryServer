@@ -3,4 +3,9 @@ var fileConfig = {
     picture: "./upload/",
 }
 
-export { fileConfig }
+var listConfig = {
+    basic : fileConfig.picture + "basic.json",
+    composite : fileConfig.picture + "composite.json",
+}
+
+export { fileConfig, listConfig }
