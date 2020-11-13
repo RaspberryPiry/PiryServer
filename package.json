@@ -1,0 +1,19 @@
+{
+  "name": "piryserver",
+  "version": "1.0.0",
+  "description": "Piry 에서 사용하는 서버 코드.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RaspberryPiry/PiryServer.git"
+  },
+  "author": "CHJ",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RaspberryPiry/PiryServer/issues"
+  },
+  "homepage": "https://github.com/RaspberryPiry/PiryServer#readme"
+}
