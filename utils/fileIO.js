@@ -1,11 +1,8 @@
 var fs = require('fs');
 
-const BASIC = 0;
-const COMPOS = 1;
-
 function readJson(fileName) {
     // Read Json And Parse it to data.
-    return Promise((res, rej) => {
+    return new Promise((res, rej) => {
         fs.readFile(fileName, (err, data) => {
             if(err) rej(err);
             else res(JSON.parse(data));
@@ -13,12 +10,21 @@ function readJson(fileName) {
     });
 }
 
+function refreshJson(fileName, fileLists) {
+    var fileContent = {
+        fileList : fileLists
+    }
+    fs.writeFile(fileName, JSON.stringify(fileContent), () => {});
+
+}
+
 function addJsonList(fileName, pictureName) {
     readJson(fileName)
     .then(
         (data)=> {
             data.fileList.push("./" + pictureName);
-        }, 
+            refreshJson(fileName, data.fileList)
+        },
         (err)=> {
             // TODO : Error catch while read JSON file.
             console.log(err);
@@ -26,20 +32,20 @@ function addJsonList(fileName, pictureName) {
     );
 }
 
-function saveJsonPicture(fileName, text, picture) {
+function saveJsonPicture(fileName, textInput, pictureInput) {
     var fileContent = {
         time : getNowTime(),
-        text : text,
-        picture : picture
+        text : textInput,
+        picture : pictureInput
     }
-    fs.writeFileSync(fileName, JSON.stringify(fileContent));
+    fs.writeFile(fileName, JSON.stringify(fileContent), () => {});
 }
 
 function getNowTime() {
     var d = new Date();
     var year = String(d.getUTCFullYear());
     year = year[2] + year[3];
-    var month = formatter(String(d.getMonth()));
+    var month = formatter(String(d.getMonth()));    
     var date = formatter(String(d.getDate()));
     var hour = formatter(String(d.getHours()));
     var minute = formatter(String(d.getMinutes()));
@@ -48,7 +54,7 @@ function getNowTime() {
 }
 
 function formatter(string) {
-    if(string.length() == 1) return "0" + string;
+    if(string.length == 1) return "0" + string;
     else return string;
 }
 

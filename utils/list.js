@@ -2,32 +2,39 @@ const fileIO = require("./fileIO");
 const config = require("../config");
 
 function collectAllList() {
-    var basic = collectBasicList();
-    var compos = collectCopositeList();
-
-    return basic + compos;
+    return new Promise((res, rej) => {
+        var fileList;
+        collectBasicList()
+        .then((basicFileList) =>{
+            fileList = basicFileList;
+            return collectCopositeList();
+        })
+        .then((compositeFileList)=> {
+            var arrList = [];
+            for(var i = 0; i < fileList.length; i++) arrList.push(fileList[i]);
+            for(var i = 0; i < compositeFileList.length; i++) arrList.push(compositeFileList[i]);
+            res(arrList);
+        })
+        .catch((err) => {
+            rej(err);
+        })
+    });
 }
 
 function collectBasicList() {
-    fileIO.readJson(config.basic)
-    .then((jsonData) => {
-        return jsonData.fileList;
-    },
-    (err) => {
-        // TODO : 이상 JSON 파일에 대한 에러처리.
-        console.log(err);
-    })
+    return new Promise((res, rej) => {
+        fileIO.readJson(config.listConfig.basic)
+        .then((jsonData) => { res(jsonData.fileList) },
+        (err) => { rej(err) })
+    });
 }
 
 function collectCopositeList() {
-    fileIO.readJson(config.composite)
-    .then((jsonData) => {
-        return jsonData.fileList;
-    },
-    (err) => {
-        // TODO : 이상 JSON 파일에 대한 에러처리.
-        console.log(err);
-    })
+    return new Promise((res, rej) => {
+        fileIO.readJson(config.listConfig.composite)
+        .then((jsonData) => { res(jsonData.fileList) },
+        (err) => { rej(err) })
+    });
 }
 
 module.exports = { collectAllList, collectBasicList, collectCopositeList};
