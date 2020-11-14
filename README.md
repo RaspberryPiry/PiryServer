@@ -9,8 +9,7 @@ basic_url : server 관련 담당자에게 문의하십시오.
 ### GET basic_url/list/all
 기본 이미지 데이터와 복합 이미지 데이터를 모두 list로 보내줍니다.
 해당 결과는 다음과 같습니다.
-<pre><code>
-{
+<pre><code> {
     "result": [
         "sunny.json",
         "cloud.json",
@@ -23,8 +22,7 @@ basic_url : server 관련 담당자에게 문의하십시오.
 ### GET basic_url/list/basic
 기본적으로 존재하는 날씨 같은 이미지 데이터를 의미합니다.
 해당 결과는 다음과 같습니다.
-<pre><code>
-{
+<pre><code> {
     "result": [
         "sunny.json",
         "cloud.json"
@@ -35,8 +33,7 @@ basic_url : server 관련 담당자에게 문의하십시오.
 ### GET basic_url/list/composite
 다른 사용자가 보낸 복합적인 이미지 데이터를 의미합니다.
 해당 결과는 다음과 같습니다.
-<pre><code>
-{
+<pre><code> {
     "result": [
         "hello.json",
         "world.json"
