@@ -10,12 +10,21 @@ function readJson(fileName) {
     });
 }
 
+function refreshJson(fileName, fileLists) {
+    var fileContent = {
+        fileList : fileLists
+    }
+    fs.writeFile(fileName, JSON.stringify(fileContent), () => {});
+
+}
+
 function addJsonList(fileName, pictureName) {
     readJson(fileName)
     .then(
         (data)=> {
             data.fileList.push("./" + pictureName);
-        }, 
+            refreshJson(fileName, data.fileList)
+        },
         (err)=> {
             // TODO : Error catch while read JSON file.
             console.log(err);
