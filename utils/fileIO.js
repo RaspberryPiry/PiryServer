@@ -23,20 +23,20 @@ function addJsonList(fileName, pictureName) {
     );
 }
 
-function saveJsonPicture(fileName, text, picture) {
+function saveJsonPicture(fileName, textInput, pictureInput) {
     var fileContent = {
         time : getNowTime(),
-        text : text,
-        picture : picture
+        text : textInput,
+        picture : pictureInput
     }
-    fs.writeFileSync(fileName, JSON.stringify(fileContent));
+    fs.writeFile(fileName, JSON.stringify(fileContent), () => {});
 }
 
 function getNowTime() {
     var d = new Date();
     var year = String(d.getUTCFullYear());
     year = year[2] + year[3];
-    var month = formatter(String(d.getMonth()));
+    var month = formatter(String(d.getMonth()));    
     var date = formatter(String(d.getDate()));
     var hour = formatter(String(d.getHours()));
     var minute = formatter(String(d.getMinutes()));
@@ -45,7 +45,7 @@ function getNowTime() {
 }
 
 function formatter(string) {
-    if(string.length() == 1) return "0" + string;
+    if(string.length == 1) return "0" + string;
     else return string;
 }
 

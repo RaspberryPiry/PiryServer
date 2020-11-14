@@ -3,16 +3,38 @@ const router = express.Router();
 const fileIO = require("../utils/fileIO");
 const config = require("../config");
 
-// file 이름을 어떻게 해야할까.. basic 에 있는걸 ../upload/어쩌구.json 으로 읽으면 되겠다.
-// file 이름은 uuid 로 알아서 만들어보자.
-router.get('/download', (req, res, next) => {
-    
+router.get('/download/:uuid', (req, res, next) => {
+    var uuid = req.params.uuid;
+    var fileName = config.fileConfig.picture + uuid;
+    fileIO.readJson(fileName)
+    .then((data) => {
+        return res.json({
+            saveTime: data.time,
+            text: data.text,
+            picture: data.picture
+        });
+    })
+    .catch((err) => {
+        console.log(err);
+    })
 });
 
 router.post('/upload', (req, res, next) => {
-    var text = req.body. text;
+    var text = req.body.text;
     var fileContent = req.body.content;
+    var uuid = getUUID() + ".json";
+    var fileName = config.fileConfig.picture + uuid;
 
+    fileIO.saveJsonPicture(fileName, text, fileContent);
+    fileIO.addJsonList(config.listConfig.composite, uuid);
+    return res.json({ "saved" : true, "fileName" : uuid });
 });
+
+function getUUID() {
+    return 'xxxx-xxxx-xxxx-xxxx-xxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
 
 module.exports = router;
