@@ -22,6 +22,7 @@ request.get(URL + "/list/all", function (error, response, body) {
         for(var i = 0; i < notDownloaded.length; i++) {
             downloadImage(notDownloaded[i]);
         }
+        fs.writeFile(CLIENT_UPLOAD_LIST, JSON.stringify({fileList : value.result}), () => {});
     })
     .catch((err) => {
         console.log(err);
@@ -32,8 +33,39 @@ request.get(URL + "/list/all", function (error, response, body) {
 function downloadImage(uuid) {
     request.get(URL + "/load/download/" + uuid, function (error, response, body) {
         var value = JSON.parse(body);
-        fs.writeFile(CLIENT_UPLOAD + uuid, JSON.stringify(fileContent), () => {});
+        fs.writeFile(CLIENT_UPLOAD + uuid.split(".")[0] + ".txt", portToText(value), () => {});
     });
+}
+
+function portToText(value)  {
+    console.log(value);
+    var time = value.saveTime;
+    var text = value.text;
+    var picture = value.picture;
+    if(value.melody == undefined) {
+        var note_n = 0;
+        var frequency = [];
+        var duration = [];
+    }
+    else {
+        var note_n = value.note_n;
+        var frequency = value.frequency;
+        var duration = value.duration;
+    }
+
+    // TODO : Porting file into animation version.
+    var retText = "";
+    retText += "last_update_time 20" + time.split(' ')[0] + "\n";
+    retText += "Number_of_Animation 1\n";
+    retText += "#1\n";
+    retText += "name " + text + "\n";
+    retText += "length 1\n";
+    retText += "delay 1000\n";
+    retText += "hasMelody 0\n";
+    retText += "@IMAGE1\n";
+    retText += picture;
+
+    return retText
 }
 
 function showList(listJson) {
@@ -48,15 +80,15 @@ function showList(listJson) {
 function getNotDownloadList(existFile, downloadFile) {
     // check exist and find not download list from download files.
     var retFileList = [];
-    for(var i = 0; i < existFile.lenght; i++) {
-        if(!isIn(existFile[i], downloadFile)) retFileList.push(existFile[i]);
+    for(var i = 0; i < downloadFile.length; i++) {
+        if(!isIn(downloadFile[i], existFile)) retFileList.push(downloadFile[i]);
     }
     return retFileList;
 }
 
-function isIn(fileName, downloadFile) {
-    for(var i = 0; i < downloadFile.length; i++) {
-        if(downloadFile[i] == fileName) return true;
+function isIn(fileName, existFile) {
+    for(var i = 0; i < existFile.length; i++) {
+        if(existFile[i] == fileName) return true;
     }
     return false;
 }
