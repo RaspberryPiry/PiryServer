@@ -44,7 +44,7 @@ basic_url : server 관련 담당자에게 문의하십시오.
 ## load
 사진을 올리거나 내려받는 함수를 제공합니다.
 
-### GET basic_url/list/download/:uuid
+### GET basic_url/load/download/:uuid
 uuid 이름의 사진을 내려받습니다. uuid 에는 json 확장자가 포함되어 있어야 합니다.
 현재 마지막으로 수정된 시간, 같이 제공된 text, 사진의 내용이 포함됩니다.
 <pre><code> {
@@ -55,7 +55,7 @@ uuid 이름의 사진을 내려받습니다. uuid 에는 json 확장자가 포�
 </code></pre>
 
 
-### POST basic_url/list/upload
+### POST basic_url/load/upload
 사진을 text와 함께 전송합니다. 요청 인자는 다음과 같습니다.
 content 나 text 모두 string으로 전달되는 것임에 주의해야 합니다.
 <pre><code> {
