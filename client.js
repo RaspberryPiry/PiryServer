@@ -4,6 +4,8 @@ const fs = require('fs');
 const URL = "http://code-giraffe.iptime.org:36000";
 const CLIENT_UPLOAD = "./clientUpload/";
 const CLIENT_UPLOAD_LIST = "./clientUpload/list.json";
+const CLIENT_FILES = "./clientUpload/data.txt";
+
 /*
 Need to be below logic.
 1. Request for all list or composite list.
@@ -16,13 +18,18 @@ request.get(URL + "/list/all", function (error, response, body) {
     
     // Check exist list and download not-downloaded files.
     showList(CLIENT_UPLOAD_LIST)
-    .then((data) => {
+    .then(async (data) => {
         var existFile = data.fileList;
         var notDownloaded = getNotDownloadList(existFile, value.result);
+        // Await for not-downloaded files.
         for(var i = 0; i < notDownloaded.length; i++) {
-            downloadImage(notDownloaded[i]);
+            await downloadImage(notDownloaded[i]);
         }
+    })
+    .then(async () => {
         fs.writeFile(CLIENT_UPLOAD_LIST, JSON.stringify({fileList : value.result}), () => {});
+        // Await for read each json files.
+        fs.writeFile(CLIENT_FILES, await portToText(value.result), () => {});
     })
     .catch((err) => {
         console.log(err);
@@ -31,41 +38,70 @@ request.get(URL + "/list/all", function (error, response, body) {
 
 
 function downloadImage(uuid) {
-    request.get(URL + "/load/download/" + uuid, function (error, response, body) {
-        var value = JSON.parse(body);
-        fs.writeFile(CLIENT_UPLOAD + uuid.split(".")[0] + ".txt", portToText(value), () => {});
+    return new Promise((res, rej) => {
+        request.get(URL + "/load/download/" + uuid, function (error, response, body) {
+            var value = JSON.parse(body);
+            fs.writeFile(CLIENT_UPLOAD + uuid, JSON.stringify(value), () => {});
+            res();
+        });
     });
 }
 
-function portToText(value)  {
-    console.log(value);
-    var time = value.saveTime;
-    var text = value.text;
-    var picture = value.picture;
-    if(value.melody == undefined) {
-        var note_n = 0;
-        var frequency = [];
-        var duration = [];
+async function portToText(result)  {
+    var resultJson = [];
+    for(var i = 0; i < result.length; i++) {
+        var resContent = await readAwaitFile(CLIENT_UPLOAD + result[i]);
+        resultJson.push(resContent);
     }
-    else {
-        var note_n = value.note_n;
-        var frequency = value.frequency;
-        var duration = value.duration;
-    }
-
-    // TODO : Porting file into animation version.
+    
+    var time = getNowTime();
     var retText = "";
-    retText += "last_update_time 20" + time.split(' ')[0] + "\n";
-    retText += "Number_of_Animation 1\n";
-    retText += "#1\n";
-    retText += "name " + text + "\n";
-    retText += "length 1\n";
-    retText += "delay 1000\n";
-    retText += "hasMelody 0\n";
-    retText += "@IMAGE1\n";
-    retText += picture;
+    retText += "last_update_time " + time + "\n";
+    retText += "Number_of_Animation " + String(result.length) + "\n";
 
-    return retText
+    for(var i = 0; i < resultJson.length; i++) {
+        if(resultJson[i].melody == undefined) {
+            var note_n = 0;
+            var frequency = [];
+            var duration = [];
+        }
+        else {
+            var note_n = value.note_n;
+            var frequency = value.frequency;
+            var duration = value.duration;
+        }
+        retText += "#" + String(i) + "\n";
+        retText += "length 1\n"
+        retText += "name " + resultJson[i].text + "\n";
+        retText += "delay 1000\n";
+        retText += "hasMelody 0\n";
+        retText += "@IMAGE" + String(i) + "\n";
+        retText += resultJson[i].picture + "\n";
+    }
+
+    return retText;
+}
+
+function getNowTime() {
+    var d = new Date();
+    var year = String(d.getUTCFullYear());
+    var month = formatter(String(d.getMonth()));    
+    var date = formatter(String(d.getDate()));
+    return year + month + date;
+}
+
+function formatter(string) {
+    if(string.length == 1) return "0" + string;
+    else return string;
+}
+
+function readAwaitFile(fileName) {
+    return new Promise((res, rej) => {
+        fs.readFile(fileName, (err, data) => {
+            if(err) rej(err);
+            else res(JSON.parse(data));
+        })
+    })
 }
 
 function showList(listJson) {
