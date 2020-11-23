@@ -32,10 +32,12 @@ function addJsonList(fileName, pictureName) {
     );
 }
 
-function saveJsonPicture(fileName, textInput, pictureInput) {
+function saveJsonPicture(fileName, delayTime, textInput, pictureInput) {
+    // TODO : add freq, duration, hasMelody, note_n
     var fileContent = {
         time : getNowTime(),
         text : textInput,
+        delay : delayTime,
         picture : pictureInput
     }
     fs.writeFile(fileName, JSON.stringify(fileContent), () => {});
