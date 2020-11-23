@@ -39,7 +39,7 @@ request.get(URL + "/list/all", function (error, response, body) {
 
 function downloadImage(uuid) {
     return new Promise((res, rej) => {
-        request.get(URL + "/load/download/" + uuid, function (error, response, body) {
+        request.get(URL + "/load/download/" + uuid.split("/")[0], function (error, response, body) {
             var value = JSON.parse(body);
             fs.writeFile(CLIENT_UPLOAD + uuid, JSON.stringify(value), () => {});
             res();
@@ -70,13 +70,13 @@ async function portToText(result)  {
             var frequency = value.frequency;
             var duration = value.duration;
         }
-        retText += "#" + String(i) + "\n";
-        retText += "length 1\n"
+        retText += "#" + String(i + 1) + "\n";
         retText += "name " + resultJson[i].text + "\n";
+        retText += "length 1\n"
         retText += "delay 1000\n";
         retText += "hasMelody 0\n";
-        retText += "@IMAGE" + String(i) + "\n";
-        retText += resultJson[i].picture + "\n";
+        retText += "@IMAGE" + String(1) + "\n";
+        retText += resultJson[i].picture;
     }
 
     return retText;
