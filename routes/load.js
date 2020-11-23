@@ -25,6 +25,13 @@ router.post('/upload', (req, res, next) => {
     var uuid = getUUID() + ".json";
     var fileName = config.fileConfig.picture + uuid;
 
+    if(list.getType(fileContent) != list.getType([]))   {
+        return res.json({ 
+            "saved" : false, 
+            "err_code" : "ERR_003 : Need to send array type of picture." 
+        });
+    }
+    
     fileIO.saveJsonPicture(fileName, text, fileContent);
     fileIO.addJsonList(config.listConfig.composite, uuid);
     return res.json({ "saved" : true, "fileName" : uuid });
