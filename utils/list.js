@@ -37,13 +37,4 @@ function collectCopositeList() {
     });
 }
 
-function getType(target) {
-    return Object.prototype.toString.call(target).slice(8, -1);
-}
-
-function isSameType(target, type) {
-    // Check if type`s type is same as target.
-    return list.getType(target) == list.getType(type);
-}
-
-module.exports = { collectAllList, collectBasicList, collectCopositeList, getType, isSameType };
+module.exports = { collectAllList, collectBasicList, collectCopositeList };

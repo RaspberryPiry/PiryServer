@@ -32,14 +32,30 @@ function addJsonList(fileName, pictureName) {
     );
 }
 
-function saveJsonPicture(fileName, delayTime, textInput, pictureInput) {
-    // TODO : add freq, duration, hasMelody, note_n
-    var fileContent = {
-        time : getNowTime(),
-        text : textInput,
-        delay : delayTime,
-        picture : pictureInput
+function saveJsonPicture(fileName, delayTime, textInput, hasMelody, melody, pictureInput) {
+    var fileContent;
+    if(hasMelody == 1) {
+        fileContent = {
+            time : getNowTime(),
+            text : textInput,
+            delay : delayTime,
+            picture : pictureInput,
+            hasMelody : 1,
+            note_n : melody.note_n,
+            frquency : melody.frequency,
+            duration: melody.duration,
+        }
     }
+    else {
+        fileContent = {
+            time : getNowTime(),
+            text : textInput,
+            delay : delayTime,
+            picture : pictureInput,
+            hasMelody : 0
+        }
+    }
+
     fs.writeFile(fileName, JSON.stringify(fileContent), () => {});
 }
 
