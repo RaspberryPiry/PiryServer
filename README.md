@@ -41,6 +41,21 @@ basic_url : server 관련 담당자에게 문의하십시오.
 }
 </code></pre>
 
+### Get basic_url/lost/weather
+날씨 데이터를 보내줍니다.
+<pre><code> 
+{
+    "main": "Clear",
+    "description": "clear sky",
+    "temp": 2.13,
+    "feels_like": -1.62,
+    "humidity": 55,
+    "windSpeed": 1.5,
+    "windDeg": 310,
+    "cloud": 1
+}
+</code></pre>
+
 ## load
 사진을 올리거나 내려받는 함수를 제공합니다.
 
