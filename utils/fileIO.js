@@ -14,8 +14,7 @@ function refreshJson(fileName, fileLists) {
     var fileContent = {
         fileList : fileLists
     }
-    fs.writeFile(fileName, JSON.stringify(fileContent), () => {});
-
+        fs.writeFile(fileName, JSON.stringify(fileContent), () => {});
 }
 
 function addJsonList(fileName, pictureName) {
@@ -32,12 +31,30 @@ function addJsonList(fileName, pictureName) {
     );
 }
 
-function saveJsonPicture(fileName, textInput, pictureInput) {
-    var fileContent = {
-        time : getNowTime(),
-        text : textInput,
-        picture : pictureInput
+function saveJsonPicture(fileName, delayTime, textInput, hasMelody, melody, pictureInput) {
+    var fileContent;
+    if(hasMelody == 1) {
+        fileContent = {
+            time : getNowTime(),
+            text : textInput,
+            delay : delayTime,
+            picture : pictureInput,
+            hasMelody : 1,
+            note_n : melody.note_n,
+            frquency : melody.frequency,
+            duration: melody.duration,
+        }
     }
+    else {
+        fileContent = {
+            time : getNowTime(),
+            text : textInput,
+            delay : delayTime,
+            picture : pictureInput,
+            hasMelody : 0
+        }
+    }
+
     fs.writeFile(fileName, JSON.stringify(fileContent), () => {});
 }
 
@@ -45,7 +62,7 @@ function getNowTime() {
     var d = new Date();
     var year = String(d.getUTCFullYear());
     year = year[2] + year[3];
-    var month = formatter(String(d.getMonth()));    
+    var month = formatter(String(d.getMonth() + 1));    
     var date = formatter(String(d.getDate()));
     var hour = formatter(String(d.getHours()));
     var minute = formatter(String(d.getMinutes()));
@@ -57,6 +74,5 @@ function formatter(string) {
     if(string.length == 1) return "0" + string;
     else return string;
 }
-
 
 module.exports = { readJson, addJsonList, saveJsonPicture };
