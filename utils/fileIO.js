@@ -14,8 +14,7 @@ function refreshJson(fileName, fileLists) {
     var fileContent = {
         fileList : fileLists
     }
-    fs.writeFile(fileName, JSON.stringify(fileContent), () => {});
-
+        fs.writeFile(fileName, JSON.stringify(fileContent), () => {});
 }
 
 function addJsonList(fileName, pictureName) {
@@ -63,7 +62,7 @@ function getNowTime() {
     var d = new Date();
     var year = String(d.getUTCFullYear());
     year = year[2] + year[3];
-    var month = formatter(String(d.getMonth()));    
+    var month = formatter(String(d.getMonth() + 1));    
     var date = formatter(String(d.getDate()));
     var hour = formatter(String(d.getHours()));
     var minute = formatter(String(d.getMinutes()));
