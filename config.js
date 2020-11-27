@@ -1,5 +1,6 @@
 var fileConfig = {
-    picture: "./upload/"
+    picture: "./upload/",
+    weather: "./upload/weather.json"
 }
 
 var listConfig = {

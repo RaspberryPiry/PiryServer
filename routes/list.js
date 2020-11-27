@@ -34,4 +34,9 @@ router.get('/composite', (req, res, next) => {
     });
 });
 
+router.get('/weather', (req, res, next) => {
+
+});
+
+
 module.exports = router;
