@@ -5,6 +5,7 @@ const config = require("../config");
 
 router.get('/download/:uuid', (req, res, next) => {
     var uuid = req.params.uuid;
+    console.log("Download URL " + uuid);
     var fileName = config.fileConfig.picture + uuid;
     fileIO.readJson(fileName)
     .then((data) => {
