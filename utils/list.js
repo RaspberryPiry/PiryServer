@@ -37,4 +37,4 @@ function collectCopositeList() {
     });
 }
 
-module.exports = { collectAllList, collectBasicList, collectCopositeList};
+module.exports = { collectAllList, collectBasicList, collectCopositeList };
