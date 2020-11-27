@@ -75,5 +75,4 @@ function formatter(string) {
     else return string;
 }
 
-
 module.exports = { readJson, addJsonList, saveJsonPicture };
