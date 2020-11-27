@@ -12,15 +12,9 @@ function getType(target) {
     return Object.prototype.toString.call(target).slice(8, -1);
 }
 
-function getUUID() {
-    return 'xxxx-xxxx-xxxx-xxxx-xxxx'.replace(/[xy]/g, function(c) {
-        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
-}
-
 router.get('/download/:uuid', (req, res, next) => {
     var uuid = req.params.uuid;
+    console.log("Download URL " + uuid);
     var fileName = config.fileConfig.picture + uuid;
     fileIO.readJson(fileName)
     .then((data) => {
@@ -111,5 +105,12 @@ router.post('/upload', (req, res, next) => {
     
     return res.json({ "saved" : true, "fileName" : uuid });
 });
+
+function getUUID() {
+    return 'xxxx-xxxx-xxxx-xxxx-xxxx'.replace(/[xy]/g, function(c) {
+        var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
 
 module.exports = router;
