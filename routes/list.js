@@ -7,7 +7,6 @@ const config = require("../config");
 router.get('/all', (req, res, next) => {
     var fileList = listUtils.collectAllList()
     .then((fileList) => {
-        console.log(fileList);
         return res.json({"result" : fileList});
     })
     .catch((err) => {
