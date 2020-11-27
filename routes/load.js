@@ -24,11 +24,27 @@ router.get('/download/:uuid', (req, res, next) => {
     var fileName = config.fileConfig.picture + uuid;
     fileIO.readJson(fileName)
     .then((data) => {
-        return res.json({
-            saveTime: data.time,
-            text: data.text,
-            picture: data.picture
-        });
+        if(data.hasMelody == 0) {
+            return res.json({
+                saveTime: data.time,
+                text: data.text,
+                picture: data.picture,
+                delay: data.delay,
+                hasMelody: data.hasMelody,
+            });
+        }
+        else {
+            return res.json({
+                saveTime: data.time,
+                text: data.text,
+                picture: data.picture,
+                delay: data.delay,
+                hasMelody: data.hasMelody,
+                note_n = data.note,
+                frequency = data.frequency,
+                duration = data.duration
+            });
+        }
     })
     .catch((err) => {
         console.log(err);

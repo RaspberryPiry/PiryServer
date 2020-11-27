@@ -39,7 +39,8 @@ request.get(URL + "/list/all", function (error, response, body) {
 
 function downloadImage(uuid) {
     return new Promise((res, rej) => {
-        request.get(URL + "/load/download/" + uuid.split("/")[0], function (error, response, body) {
+        // UUID 형태가 ./~ 처럼 되어있기에 split 해야함.
+        request.get(URL + "/load/download/" + uuid.split("/")[1], function (error, response, body) {
             var value = JSON.parse(body);
             fs.writeFile(CLIENT_UPLOAD + uuid, JSON.stringify(value), () => {});
             res();
@@ -58,20 +59,21 @@ async function portToText(result)  {
     var retText = "";
     retText += "last_update_time " + time + "\n";
     retText += "Number_of_Animation " + String(result.length) + "\n";
-
+    
     for(var i = 0; i < resultJson.length; i++) {
+        console.log(resultJson);
         retText += "#" + String(i + 1) + "\n";
         retText += "name " + resultJson[i].text + "\n";
-        retText += "length " + String(resultJson[i].picture) + "\n"
+        retText += "length " + String(resultJson[i].picture.length) + "\n";
         retText += "delay " + String(resultJson[i].delay) + "\n";
-        retText += "hasMelody" + resultJson[i].hasMelody + "\n";
+        retText += "hasMelody " + resultJson[i].hasMelody + "\n";
         if(resultJson[i].hasMelody == 1) {
             retText += "note_n" + resultJson[i].note_n + "\n";
             retText += "frequency" + resultJson[i].frequency + "\n";
             retText += "duration" + resultJson[i].duration + "\n";
         }
 
-        for(var j = 0; j < resultJson[i].content; j++)  {
+        for(var j = 0; j < resultJson[i].picture.length; j++)  {
             retText += "@IMAGE" + String(j + 1) + "\n";
             retText += resultJson[i].picture[j] + "\n";
         }
