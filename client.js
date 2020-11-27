@@ -36,7 +36,6 @@ request.get(URL + "/list/all", function (error, response, body) {
     });
 });
 
-
 function downloadImage(uuid) {
     return new Promise((res, rej) => {
         // UUID 형태가 ./~ 처럼 되어있기에 split 해야함.
@@ -61,7 +60,6 @@ async function portToText(result)  {
     retText += "Number_of_Animation " + String(result.length) + "\n";
     
     for(var i = 0; i < resultJson.length; i++) {
-        console.log(resultJson);
         retText += "#" + String(i + 1) + "\n";
         retText += "name " + resultJson[i].text + "\n";
         retText += "length " + String(resultJson[i].picture.length) + "\n";
