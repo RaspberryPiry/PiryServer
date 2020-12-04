@@ -2,6 +2,17 @@ const express = require('express');
 const router = express.Router();
 const fileIO = require("../utils/fileIO");
 const config = require("../config");
+const multer = require("multer");
+let {PythonShell} = require('python-shell');
+
+const storage = multer.diskStorage({
+    destination: config.fileConfig.picture,
+    filename: function (req, file, next) {
+        next(null, "I_" + getUUID() + ".jpg");
+    },
+});
+
+const upload = multer({ storage: storage });
 
 function isSameType(target, type) {
     // Check if type`s type is same as target.
@@ -104,6 +115,31 @@ router.post('/upload', (req, res, next) => {
     fileIO.addJsonList(config.listConfig.composite, uuid);
     
     return res.json({ "saved" : true, "fileName" : uuid });
+});
+
+router.post('/pixelfy', upload.single("img"), (req, res, next) => {
+    var uuid = getUUID();
+    var inputFileName = config.fileConfig.picture + req.file.filename;
+    let options = {
+        args: ['value1', 'value2', 'value3']
+    };
+    PythonShell.run('./imageProcessing/pixelry.py', {args: [inputFileName]}, function (err, results) {
+        if (err) throw err;
+        
+        var resultPixels = []
+        for(var i = 0; i < results.length; i++) {
+            resultPixels.push([]);
+            var result = results[i].split(" ");
+            for(var j = 0; j < result.length; j++) {
+                if(result[j].length != 0) resultPixels[i].push(result[j])
+            }
+        }
+        res.json({
+            result: true,
+            pixel: resultPixels
+        });
+    });
+    
 });
 
 function getUUID() {
