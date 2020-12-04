@@ -65,6 +65,21 @@ def pixelize(img, pixel_func="middle"):
     
     return dst
 
+def pixelize_printer(img, pixel_func="middle"):
+    for y in range(MAX_HEIGHT):
+        for x in range(MAX_WIDTH):
+            if pixel_func == "middle":
+                ret = get_middle_pixel(img, x, y)
+            elif pixel_func == "aver":
+                ret = get_aver_pixel(img, x, y)
+            else:
+                ret = get_middle_pixel(img, x, y)
+            r = format(ret[2], 'x')
+            g = format(ret[1], 'x')
+            b = format(ret[1], 'x')
+            print(r + g + b, end=" ")
+        print()
+
 def paint_shower(img, pixel_func="middle"):
     dst = np.zeros((MAX_HEIGHT * 2, MAX_WIDTH * 2, 3), dtype=np.uint8)
 
@@ -80,10 +95,11 @@ def paint_shower(img, pixel_func="middle"):
     return dst
 
 if __name__ == "__main__":
-    if len(sys.argv) != 3:
-        print("Usage : ~.py ${IMG_INPUT} ${OUTPUT_FILE}")
+    if len(sys.argv) != 2:
+        print("Usage : ~.py ${IMG_INPUT}")
         exit()
     
     img = cv2.imread(sys.argv[1])
+    pixelize_printer(img)
 
-    cv2.imwrite(sys.argv[2], paint_shower(img, pixel_func="middle"))
+    # cv2.imwrite(sys.argv[2], paint_shower(img, pixel_func="middle"))
