@@ -8,7 +8,8 @@ let {PythonShell} = require('python-shell');
 const storage = multer.diskStorage({
     destination: config.fileConfig.picture,
     filename: function (req, file, next) {
-        next(null, "I_" + getUUID() + ".jpg");
+        var fileS = file.originalname.split(".");
+        next(null, "I_" + getUUID() + "." + fileS[fileS.length - 1]);
     },
 });
 
@@ -118,20 +119,37 @@ router.post('/upload', (req, res, next) => {
 });
 
 router.post('/pixelfy', upload.single("img"), (req, res, next) => {
-    var uuid = getUUID();
     var inputFileName = config.fileConfig.picture + req.file.filename;
-    let options = {
-        args: ['value1', 'value2', 'value3']
-    };
-    PythonShell.run('./imageProcessing/pixelry.py', {args: [inputFileName]}, function (err, results) {
+
+    PythonShell.run('./imageProcessing/pixelfy.py', {args: [inputFileName]}, function (err, results) {
         if (err) throw err;
-        
-        var resultPixels = []
-        for(var i = 0; i < results.length; i++) {
+        var resultPixels = [];
+        var fileS = inputFileName.split(".");
+        var extension = fileS[fileS.length - 1];
+        if(extension == "gif" || extension == "mp4")  {
+            var nowScreenNumber = 0;
             resultPixels.push([]);
-            var result = results[i].split(" ");
-            for(var j = 0; j < result.length; j++) {
-                if(result[j].length != 0) resultPixels[i].push(result[j])
+            for(var i = 0; i < results.length; i++) {
+                if(results[i].length == 0 && i != results.length - 1) {
+                    resultPixels.push([]);
+                    nowScreenNumber += 1;
+                }
+                else {
+                    resultPixels[nowScreenNumber].push([])
+                    var result = results[i].split(" ");
+                    for(var j = 0; j < result.length; j++) {
+                        if(result[j].length != 0) resultPixels[nowScreenNumber][resultPixels[nowScreenNumber].length - 1].push(result[j])
+                    }
+                }
+            }
+        }
+        else {
+            for(var i = 0; i < results.length; i++) {
+                resultPixels.push([]);
+                var result = results[i].split(" ");
+                for(var j = 0; j < result.length; j++) {
+                    if(result[j].length != 0) resultPixels[i].push(result[j])
+                }
             }
         }
         res.json({

@@ -56,7 +56,7 @@ def get_middle_pixel(img, x, y):
     after_w = w_window * (x + 1)
 
     return img[int((before_h + after_h) / 2)][int((before_w + after_w) / 2)]
-
+    
 def get_top_pixel(img, x, y):
     (height, width, _) = img.shape
     h_window = int(height / MAX_WIDTH)
@@ -94,6 +94,13 @@ def get_4_point_average_pixel(img, x, y):
         temp = lt_point[c] + rt_point[c] + lb_point[c] + rb_point[c]
         ret_point[c] = check_bound(int(temp / 4))
     return np.array(ret_point)
+
+def pixelize_movie_printer(mov, pixel_func="middle"):
+    ret, frame = mov.read()
+    while ret:
+        # Print do not convert RGB to BGR
+        pixelize_printer(frame, pixel_func=pixel_func)
+        ret, frame = mov.read()
 
 def pixelize_movie_shower(mov, pixel_func="middle"):
     # gif, mp4 모두 다 가능한 함수.
@@ -145,6 +152,7 @@ def pixelize_printer(img, pixel_func="middle"):
             b = format(ret[1], 'x')
             print(r + g + b, end=" ")
         print()
+    print()
 
 def pixelize_shower(img, pixel_func="middle"):
     # 검은색 점을 하나씩 끼워넣어준 코드
@@ -169,11 +177,11 @@ if __name__ == "__main__":
     if sys.argv[1].split(".")[-1] in MOVIE_LIST:
         output_file = sys.argv[1].split(".")[0] + "_pixel_.gif"
         img = cv2.VideoCapture(sys.argv[1])
-        pixel_images = pixelize_movie_shower(img, pixel_func='aver')
-        imageio.mimsave(output_file, pixel_images)
+        pixelize_movie_printer(img, pixel_func='aver')
+        # pixel_images = pixelize_movie_shower(img, pixel_func='aver')
+        # imageio.mimsave(output_file, pixel_images)
     else:
         img = cv2.imread(sys.argv[1])
-        pixelize(img)
-        # pixelize_printer(img)
-
-    # cv2.imwrite(sys.argv[2], paint_shower(img, pixel_func="middle"))
+        # pixelize(img)
+        pixelize_printer(img)
+        # cv2.imwrite(sys.argv[2], paint_shower(img, pixel_func="middle"))
