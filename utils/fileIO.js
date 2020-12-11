@@ -34,6 +34,7 @@ function addJsonList(fileName, pictureName) {
 function saveJsonPicture(fileName, delayTime, textInput, hasMelody, melody, pictureInput) {
     var fileContent;
     if(hasMelody == 1) {
+        /*
         fileContent = {
             time : getNowTime(),
             text : textInput,
@@ -43,6 +44,14 @@ function saveJsonPicture(fileName, delayTime, textInput, hasMelody, melody, pict
             note_n : melody.note_n,
             frquency : melody.frequency,
             duration: melody.duration,
+        }*/
+        fileContent = {
+            time : getNowTime(),
+            text : textInput,
+            delay : delayTime,
+            picture : pictureInput,
+            hasMelody : 1,
+            melody : melody
         }
     }
     else {

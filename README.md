@@ -89,6 +89,10 @@ hasMelody 가 0인경우, note, frequency, duration 은 보내지 않아도 됩�
 사진을 text와 함께 전송합니다. 요청 인자는 다음과 같습니다.
 content 나 text 모두 string으로 전달되는 것임에 주의해야 합니다.
 hasMelody 가 0인경우, note, frequency, duration 은 보내지 않아도 됩니다.
+-> 변경되었습니다.
+haMelody 는 1, 0 의 값, 1일때에는 type (0 ~ 2) 의 값을 보내줘야합니다.
+각 type은 0 : 신나는, 1 : 급한, 2 : 잔잔한 의 값.
+
 <pre><code> {
     'text': '안녕?',
     delayTime : [
