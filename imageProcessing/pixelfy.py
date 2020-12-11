@@ -147,12 +147,15 @@ def pixelize_printer(img, pixel_func="middle"):
                 ret = get_aver_pixel(img, x, y)
             else:
                 ret = get_middle_pixel(img, x, y)
-            r = format(ret[2], 'x')
-            g = format(ret[1], 'x')
-            b = format(ret[1], 'x')
+            r = formatter(format(ret[2], 'x'))
+            g = formatter(format(ret[1], 'x'))
+            b = formatter(format(ret[0], 'x'))
             print(r + g + b, end=" ")
         print()
     print()
+
+def formatter(rgb):
+    return rgb if len(rgb) != 1 else "0" + rgb
 
 def pixelize_shower(img, pixel_func="middle"):
     # 검은색 점을 하나씩 끼워넣어준 코드
