@@ -13,15 +13,13 @@ Need to be below logic.
 
 request.get(URL + "/list/weather", function (error, response, body) {
     var value = JSON.parse(body);
-    console.log(value);
     var text = "";
     text += "main " + value.main + "\n"
     text += "decription " + value.description + "\n"
     text += "icon " + "TEMP_ICON"+ "\n"
-    text += "temp " + String(value.main.temp) + "\n"
-    text += "feels " + String(value.main.feels_like) + "\n"
-    text += "humidity " + String(value.main.humidity)
-
+    text += "temp " + String(value.temp) + "\n"
+    text += "feels " + String(value.feels_like) + "\n"
+    text += "humidity " + String(value.humidity)
 
     fs.writeFile(CLIENT_FILES, text, () => {});
 });

@@ -3,8 +3,9 @@ import time
 import subprocess
 
 HOST = "code-giraffe.iptime.org"
+#HOST = "127.0.0.1"
 PORT = 36001
-DC_RUN = ['node', 'daaClient.js']
+DC_RUN = ['node', 'dataClient.js']
 WC_RUN = ['node', 'weatherClient.js']
 
 def recv_data(client_socket):
