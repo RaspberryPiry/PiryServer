@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
+
 const fileIO = require("../utils/fileIO");
 const melodyUtil = require("../utils/melody");
 const config = require("../config");
+
 const multer = require("multer");
 let {PythonShell} = require('python-shell');
 
@@ -65,14 +67,12 @@ router.post('/upload', (req, res, next) => {
     var delayTime = req.body.delayTime;
     var fileName = config.fileConfig.picture + uuid;
     var hasMelody = req.body.hasMelody;
-    var melody = -1;
-    /*
-    var hasMelody = req.body.hasMelody;
     var melody = {
         note_n: 1,
         frequency: [1000],
         duration: [10]
     }
+    /*
     if(hasMelody != 0)  {
         melody.note_n = req.body.note;
         melody.frequency = req.body.frequency;
@@ -102,7 +102,6 @@ router.post('/upload', (req, res, next) => {
                 "err_code" : "ERR_003 : Need to send array type of picture." 
             });
         }
-        /*
         if(isSameType(delayTime, "")) {
             try {
                 delayTime = JSON.parse(delayTime);
@@ -120,7 +119,6 @@ router.post('/upload', (req, res, next) => {
                 "err_code" : "ERR_003 : Need to send array type of picture." 
             });
         }
-        */
     }
     
     fileIO.saveJsonPicture(fileName, delayTime, text, hasMelody, melody, fileContent);
