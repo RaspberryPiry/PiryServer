@@ -8,4 +8,9 @@ var listConfig = {
     composite : fileConfig.picture + "composite.json",
 }
 
-module.exports = { fileConfig, listConfig }
+var portConfig = {
+    expressPort : 36000,
+    socketPort : 36001
+}
+
+module.exports = { fileConfig, listConfig, portConfig }
