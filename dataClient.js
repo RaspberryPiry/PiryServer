@@ -66,9 +66,12 @@ async function portToText(result)  {
         retText += "delay " + String(resultJson[i].delay) + "\n";
         retText += "hasMelody " + resultJson[i].hasMelody + "\n";
         if(resultJson[i].hasMelody == 1) {
+            /*
             retText += "note_n" + resultJson[i].note_n + "\n";
             retText += "frequency" + resultJson[i].frequency + "\n";
             retText += "duration" + resultJson[i].duration + "\n";
+            */
+           retText += "melody" + resultJson[i].melody + "\n";
         }
 
         for(var j = 0; j < resultJson[i].picture.length; j++)  {
