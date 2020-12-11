@@ -2,10 +2,10 @@ import socket
 import time
 import subprocess
 
-HOST = "127.0.0.1"
+HOST = "code-giraffe.iptime.org"
 PORT = 36001
-DC_RUN = ['node', 'client.js']
-WC_RUN = ['node', 'client.js']
+DC_RUN = ['node', 'daaClient.js']
+WC_RUN = ['node', 'weatherClient.js']
 
 def recv_data(client_socket):
     data = client_socket.recv(4)
@@ -25,6 +25,9 @@ if __name__ == "__main__":
             time.sleep(1)
         else:
             if msg == "DC":
-                subprocess.run(['node', 'client.js'])
+                subprocess.run(DC_RUN)
+            elif msg == "WC":
+                subprocess.run(WC_RUN)
+
             before_msg = msg
             print(msg)

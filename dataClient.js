@@ -3,8 +3,8 @@ const fs = require('fs');
 
 const URL = "http://code-giraffe.iptime.org:36000";
 const CLIENT_UPLOAD = "./clientUpload/";
-const CLIENT_UPLOAD_LIST = "./clientUpload/list.json";
-const CLIENT_FILES = "./clientUpload/data.txt";
+const CLIENT_UPLOAD_LIST = CLIENT_UPLOAD + "list.json";
+const CLIENT_FILES = CLIENT_UPLOAD + "data.txt";
 
 /*
 Need to be below logic.

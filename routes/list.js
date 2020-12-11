@@ -41,12 +41,10 @@ router.get('/weather', (req, res, next) => {
         var weather = {
             main : data.weather[0].main,
             description : data.weather[0].description,
-            temp : data.main.temp - 273,
-            feels_like : data.main.feels_like - 273,
-            humidity : data.main.humidity,
-            windSpeed : data.wind.speed,
-            windDeg : data.wind.deg,
-            cloud : data.clouds.all,
+            icon: data.weather[0].icon,
+            temp : data.main.temp - 273.15,
+            feels_like : data.main.feels_like - 273.15,
+            humidity : data.main.humidity
         }
         res.json(weather);
     })
