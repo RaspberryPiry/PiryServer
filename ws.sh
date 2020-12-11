@@ -1,0 +1,1 @@
+kill $(ps -ef | grep python | awk '{ print $2}' | head -1)
