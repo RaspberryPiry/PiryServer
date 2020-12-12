@@ -74,7 +74,8 @@ async function portToText(result)  {
 
         for(var j = 0; j < resultJson[i].picture.length; j++)  {
             retText += "@IMAGE" + String(j + 1) + "\n";
-            retText += resultJson[i].picture[j] + "\n";
+            retText += resultJson[i].picture[j];
+            if(retText[retText.length - 1] != "\n") retText += '\n';
         }
     }
 

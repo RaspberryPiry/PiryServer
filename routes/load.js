@@ -127,6 +127,10 @@ router.post('/upload', (req, res, next) => {
     return res.json({ "saved" : true, "fileName" : uuid });
 });
 
+router.get('/delete/:uuid', (req, res, next) => {
+    
+});
+
 router.post('/pixelfy', upload.single("img"), (req, res, next) => {
     var inputFileName = config.fileConfig.picture + req.file.filename;
 
