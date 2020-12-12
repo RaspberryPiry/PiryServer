@@ -58,18 +58,18 @@ async function portToText(result)  {
     var retText = "";
     retText += "last_update_time " + time + "\n";
     retText += "Number_of_Animation " + String(result.length) + "\n";
-    
+
     for(var i = 0; i < resultJson.length; i++) {
-        console.log(resultJson[i]);
         retText += "#" + String(i + 1) + "\n";
         retText += "name " + resultJson[i].text + "\n";
         retText += "length " + String(resultJson[i].picture.length) + "\n";
         retText += "delay " + String(resultJson[i].delay) + "\n";
         retText += "hasMelody " + resultJson[i].hasMelody + "\n";
         if(resultJson[i].hasMelody == 1) {
-            retText += "note_n" + resultJson[i].note_n + "\n";
-            retText += "frequency" + resultJson[i].frequency + "\n";
-            retText += "duration" + resultJson[i].duration + "\n";
+            console.log(resultJson[i].note_n);
+            retText += "note_n " + resultJson[i].note_n + "\n";
+            retText += "frequency " + resultJson[i].frequency + "\n";
+            retText += "duration " + resultJson[i].duration + "\n";
            // retText += "melody" + resultJson[i].melody + "\n";
         }
 
