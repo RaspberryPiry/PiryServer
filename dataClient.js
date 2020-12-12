@@ -61,7 +61,7 @@ async function portToText(result)  {
 
     for(var i = 0; i < resultJson.length; i++) {
         retText += "#" + String(i + 1) + "\n";
-        retText += "name " + resultJson[i].text + "\n";
+        retText += "name " + resultJson[i].text.replace(/ /g, '_') + "\n";
         retText += "length " + String(resultJson[i].picture.length) + "\n";
         retText += "delay " + String(resultJson[i].delay) + "\n";
         retText += "hasMelody " + resultJson[i].hasMelody + "\n";
