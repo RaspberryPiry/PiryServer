@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include<time.h>
 #include <string.h>
 #include <fcntl.h>                  
 #include <errno.h>
@@ -21,6 +22,8 @@
 #define NUMCOLOR	  3
 
 #define LIM(V,MIN,MAX) (V > MAX ? MAX : V < MIN ? MIN : V);
+
+#define IMAGE_NAME_MAX	64
 
 /* Video4Linux에서 사용할 영상 저장을 위한 버퍼 */
 struct buffer {
@@ -76,7 +79,7 @@ static unsigned int v4l2init(int fd)
 }
 
 /* BMP 이미지 데이터를 파일로 저장  */
-void save_bmpimg(unsigned char *bmpimg)
+void save_bmpimg(unsigned char *bmpimg, char * imageName)
 {
 	BITMAPFILEHEADER bmpheader;
 	BITMAPINFOHEADER bmpinfoheader;
@@ -103,7 +106,7 @@ void save_bmpimg(unsigned char *bmpimg)
 	bmpinfoheader.biYPixelsPerMeter = 0x0B12;
 
 	/* capture.bmp 파일 생성 */
-	if((fp = fopen("capture.bmp", "wb")) == NULL) {
+	if((fp = fopen(imageName, "wb")) == NULL) {
 		fprintf(stderr, "Error : Failed to open file...\n");
 		exit(EXIT_FAILURE);
 	}
@@ -123,6 +126,26 @@ void save_bmpimg(unsigned char *bmpimg)
 	fclose(fp);
 }
 
+void set_image_name(char * imageName)	{
+	int num, i, j;
+	int index = 0;
+
+	srand((unsigned int)time(NULL));
+	
+	for(j = 0; j < 5; j++) {
+		for(i = 0; i < 4; i++) {
+			num = rand() % 10;
+			imageName[index] = '0' + num;	
+			index++;
+		}
+		imageName[index] = '-';
+		index++;
+	}
+
+	strcat(imageName, ".bmp");
+	printf("%s\n", imageName);
+}
+
 /* 카메라로부터 받아온 YUV422 이미지를 BMP로 저장 */
 int yuv422_save_as_bmp(struct buffer* buffer) 
 {
@@ -130,6 +153,9 @@ int yuv422_save_as_bmp(struct buffer* buffer)
 	int y0, y1, u, v;
 	int r, g, b;
 	unsigned char *bmpimg;
+	char imageName[IMAGE_NAME_MAX];
+	memset(imageName, 0x00, IMAGE_NAME_MAX);
+	set_image_name(imageName);
 
 	/* BMP 이미지를 위한 메모리 할당 */
 	bmpimg = malloc(NUMCOLOR * IMGWIDTH * IMGHEIGHT);
@@ -161,7 +187,7 @@ int yuv422_save_as_bmp(struct buffer* buffer)
 		bmpimg[j*3+4] = LIM(g, 0, 255);
 		bmpimg[j*3+5] = LIM(r, 0, 255);
 	}
-	save_bmpimg(bmpimg);
+	save_bmpimg(bmpimg, imageName);
 	free(bmpimg);
 }
 
