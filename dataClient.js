@@ -60,6 +60,7 @@ async function portToText(result)  {
     retText += "Number_of_Animation " + String(result.length) + "\n";
     
     for(var i = 0; i < resultJson.length; i++) {
+        console.log(resultJson[i]);
         retText += "#" + String(i + 1) + "\n";
         retText += "name " + resultJson[i].text + "\n";
         retText += "length " + String(resultJson[i].picture.length) + "\n";

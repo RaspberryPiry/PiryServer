@@ -49,9 +49,9 @@ router.get('/download/:uuid', (req, res, next) => {
                 picture: data.picture,
                 delay: data.delay,
                 hasMelody: data.hasMelody,
-                note_n : data.note_n,
-                frequency : data.frequency,
-                duration : data.duration
+                note_n : data.melody.note_n,
+                frequency : data.melody.frequency,
+                duration : data.melody.duration
             });
         }
     })
